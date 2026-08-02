@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>30 Second Challenge List</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --bg-card: #171a22;
+      --bg-hover: #1e2330;
+      --border: #2a3040;
+      --text: #e8eaed;
+      --text-muted: #9aa0a6;
+      --accent: #5b8def;
+      --accent-dim: #3d6bc7;
+      --rank-1: #ffd700;
+      --rank-2: #c0c0c0;
+      --rank-3: #cd7f32;
+      --green: #4caf50;
+      --red: #ef5350;
+      --orange: #ff9800;
+      --yellow: #ffc107;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+    nav {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+    .logo span { color: var(--text); font-weight: 500; }
+    .nav-links {
+      display: flex;
+      gap: 1.1rem;
+      list-style: none;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links a, .nav-links button {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover, .nav-links a.active, .nav-links button:hover { color: var(--text); }
+    .nav-links .admin-btn { color: var(--orange); font-weight: 600; }
+    .nav-links .admin-btn:hover { color: #ffb74d; }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 1.5rem;
+    }
+    .container.full { grid-template-columns: 1fr; }
+    @media (max-width: 900px) {
+      .container { grid-template-columns: 1fr; }
+      .detail-panel { order: -1; }
+    }
+    .discord-banner {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      padding: 0.85rem 1.15rem;
+      background: linear-gradient(135deg, #5865F2 0%, #4752c4 100%);
+      border-radius: 10px;
+      margin-bottom: 0.25rem;
+      color: #fff;
+    }
+    .discord-banner .discord-text {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+    .discord-banner .discord-icon {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+    .discord-banner a.discord-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1.1rem;
+      background: #fff;
+      color: #5865F2;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: transform 0.12s, box-shadow 0.12s;
+    }
+    .discord-banner a.discord-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+    .page-header { grid-column: 1 / -1; margin-bottom: 0.5rem; }
+    .page-header h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .page-header p { color: var(--text-muted); font-size: 0.95rem; }
+    .search-bar { grid-column: 1 / -1; margin-bottom: 0.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .search-bar input {
+      flex: 1;
+      min-width: 180px;
+      padding: 0.75rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.95rem;
+      outline: none;
+    }
+    .search-bar input:focus { border-color: var(--accent); }
+    .search-bar input::placeholder { color: var(--text-muted); }
+    .btn-submit-level {
+      padding: 0.75rem 1.1rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+    .btn-submit-level:hover { background: var(--accent-dim); }
+    .list-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .list-header {
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0,0,0,0.2);
+    }
+    .list-header h2 { font-size: 1rem; font-weight: 600; }
+    .list-header .count { color: var(--text-muted); font-size: 0.85rem; }
+    .challenge-list { list-style: none; max-height: 70vh; overflow-y: auto; }
+    .challenge-item {
+      display: flex;
+      align-items: center;
+      padding: 0.7rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.12s;
+      gap: 0.85rem;
+    }
+    .challenge-thumb {
+      width: 72px;
+      height: 72px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .challenge-thumb.placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      text-align: center;
+    }
+    .cover-preview {
+      max-width: 160px;
+      max-height: 160px;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+      border: 1px solid var(--border);
+      display: none;
+    }
+    .cover-preview.show { display: block; }
+    .detail-cover {
+      width: 100%;
+      max-height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border);
+    }
+    .challenge-item:last-child { border-bottom: none; }
+    .challenge-item:hover { background: var(--bg-hover); }
+    .challenge-item.active {
+      background: rgba(91, 141, 239, 0.12);
+      border-left: 3px solid var(--accent);
+    }
+    .rank {
+      font-weight: 700;
+      font-size: 0.95rem;
+      min-width: 2.2rem;
+      text-align: right;
+      color: var(--text-muted);
+    }
+    .rank.top1 { color: var(--rank-1); }
+    .rank.top2 { color: var(--rank-2); }
+    .rank.top3 { color: var(--rank-3); }
+    .challenge-info { flex: 1; min-width: 0; }
+    .challenge-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .challenge-creator { font-size: 0.8rem; color: var(--text-muted); }
+    .points { font-size: 0.85rem; color: var(--accent); font-weight: 600; white-space: nowrap; }
+    .empty-list { padding: 3rem 1.5rem; text-align: center; color: var(--text-muted); }
+    .empty-list p { margin-bottom: 0.5rem; }
+    .detail-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      position: sticky;
+      top: 72px;
+      max-height: calc(100vh - 90px);
+      overflow-y: auto;
+    }
+    .detail-empty { color: var(--text-muted); text-align: center; padding: 2rem 1rem; font-size: 0.95rem; }
+    .detail-rank { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+    .detail-name { font-size: 1.35rem; font-weight: 700; margin-bottom: 0.15rem; }
+    .detail-creator { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem; }
+    .detail-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .stat-box {
+      background: rgba(0,0,0,0.25);
+      border-radius: 8px;
+      padding: 0.75rem;
+      text-align: center;
+    }
+    .stat-box .label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .stat-box .value { font-size: 1.1rem; font-weight: 700; margin-top: 0.15rem; }
+    .detail-section { margin-bottom: 1.25rem; }
+    .detail-section h3 {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.5rem;
+    }
+    .detail-section p { font-size: 0.9rem; color: var(--text); }
+    .verifier { display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(91, 141, 239, 0.2);
+      color: var(--accent);
+    }
+    .records-list { list-style: none; }
+    .records-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      gap: 0.5rem;
+    }
+    .records-list li:last-child { border-bottom: none; }
+    .records-list .player { font-weight: 500; }
+    .records-list .percent { color: var(--green); font-weight: 600; }
+    .btn-submit-record {
+      width: 100%;
+      margin-top: 0.75rem;
+      padding: 0.6rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .btn-submit-record:hover { background: var(--accent-dim); }
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 1.5rem;
+    }
+    .modal.wide { max-width: 560px; }
+    .modal h2 { font-size: 1.25rem; margin-bottom: 1rem; }
+    .modal .close-btn {
+      float: right;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.4rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .modal .close-btn:hover { color: var(--text); }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--accent); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.65rem 1.2rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      transition: background 0.15s, opacity 0.15s;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-dim); }
+    .btn-danger { background: var(--red); color: #fff; }
+    .btn-danger:hover { opacity: 0.85; }
+    .btn-secondary { background: var(--border); color: var(--text); }
+    .btn-secondary:hover { background: #3a4255; }
+    .btn-success { background: var(--green); color: #fff; }
+    .btn-success:hover { opacity: 0.9; }
+    .btn-block { width: 100%; }
+    .form-actions { display: flex; gap: 0.75rem; margin-top: 1.25rem; flex-wrap: wrap; }
+    .error-msg { color: var(--red); font-size: 0.85rem; margin-top: 0.5rem; display: none; }
+    .error-msg.show { display: block; }
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .admin-header h2 { margin: 0; }
+    .admin-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .admin-tabs button {
+      padding: 0.45rem 0.9rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-family: inherit;
+      font-weight: 600;
+    }
+    .admin-tabs button.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .admin-table-wrap { overflow-x: auto; margin-bottom: 1rem; }
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .admin-table th, .admin-table td {
+      padding: 0.6rem 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .admin-table th {
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .admin-table tr:hover td { background: var(--bg-hover); }
+    .admin-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
+    .admin-actions button {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.8rem;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+    }
+    .btn-edit { background: rgba(91, 141, 239, 0.2); color: var(--accent); }
+    .btn-delete { background: rgba(239, 83, 80, 0.2); color: var(--red); }
+    .btn-approve { background: rgba(76, 175, 80, 0.2); color: var(--green); }
+    .btn-reject { background: rgba(239, 83, 80, 0.2); color: var(--red); }
+    .btn-place { background: rgba(255, 152, 0, 0.2); color: var(--orange); }
+    .btn-edit:hover { background: rgba(91, 141, 239, 0.35); }
+    .btn-delete:hover, .btn-reject:hover { background: rgba(239, 83, 80, 0.35); }
+    .btn-approve:hover { background: rgba(76, 175, 80, 0.35); }
+    .btn-place:hover { background: rgba(255, 152, 0, 0.35); }
+    .admin-empty { text-align: center; padding: 2rem; color: var(--text-muted); }
+    .place-input {
+      width: 60px;
+      padding: 0.3rem 0.4rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .player-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.15rem;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .player-card:hover { border-color: var(--accent); background: var(--bg-hover); }
+    .player-card .rank-badge {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+    .player-card .rank-badge.top1 { color: var(--rank-1); }
+    .player-card .rank-badge.top2 { color: var(--rank-2); }
+    .player-card .rank-badge.top3 { color: var(--rank-3); }
+    .player-card .player-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem; }
+    .player-card .player-stats {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .player-card .player-stats strong { color: var(--accent); }
+    .stats-detail {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-top: 1rem;
+    }
+    .stats-detail h3 { margin-bottom: 0.75rem; }
+    .stats-detail .beaten-list { list-style: none; }
+    .stats-detail .beaten-list li {
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+    .stats-detail .beaten-list li:last-child { border-bottom: none; }
+    .view-hidden { display: none !important; }
+    .hint { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3a4255; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="logo" id="logo-home">⚡ <span>30SCL</span></a>
+    <ul class="nav-links">
+      <li><a href="#" class="active" id="nav-list">Challenge List</a></li>
+      <li><a href="#" id="nav-stats">Stats Viewer</a></li>
+      <li><a href="https://discord.gg/Ax8bAkwW6" target="_blank" rel="noopener noreferrer" style="color:#7289da;">Discord</a></li>
+      <li><a href="#about">About</a></li>
+      <li><button class="admin-btn" id="nav-admin">Admin</button></li>
+    </ul>
+  </nav>
+
+  <div class="container" id="main-view">
+    <div class="discord-banner">
+      <div class="discord-text">
+        <svg class="discord-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+        </svg>
+        <span>Join the community Discord for updates, submissions help &amp; discussions</span>
+      </div>
+      <a class="discord-btn" href="https://discord.gg/Ax8bAkwW6" target="_blank" rel="noopener noreferrer">Join Discord</a>
+    </div>
+    <div class="page-header">
+      <h1>30 Second Challenge List</h1>
+      <p>Ranking the hardest Geometry Dash challenges under 30 seconds</p>
+    </div>
+    <div class="search-bar">
+      <input type="text" id="search" placeholder="Search challenges or creators..." />
+      <button class="btn-submit-level" id="btn-open-level-submit">+ Submit Level</button>
+    </div>
+    <div class="list-section">
+      <div class="list-header">
+        <h2>Main List</h2>
+        <span class="count" id="list-count">0 challenges</span>
+      </div>
+      <ul class="challenge-list" id="challenge-list"></ul>
+    </div>
+    <aside class="detail-panel" id="detail-panel">
+      <div class="detail-empty">Select a challenge to view details</div>
+    </aside>
+  </div>
+
+  <div class="container full view-hidden" id="stats-view">
+    <div class="page-header">
+      <h1>Stats Viewer</h1>
+      <p>Players ranked by points from approved completions</p>
+    </div>
+    <div class="search-bar">
+      <input type="text" id="stats-search" placeholder="Search players..." />
+    </div>
+    <div id="stats-content">
+      <div class="empty-list" id="stats-empty">
+        <p>No player stats yet.</p>
+        <p style="font-size:0.85rem">Approved records will appear here.</p>
+      </div>
+      <div class="stats-grid" id="stats-grid"></div>
+      <div class="stats-detail view-hidden" id="stats-detail"></div>
+    </div>
+  </div>
+
+  <div class="container full view-hidden" id="admin-view">
+    <div class="list-section" style="padding: 1.25rem;">
+      <div class="admin-header">
+        <h2>Admin Panel</h2>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-primary" id="btn-add-challenge">+ Add Challenge</button>
+          <button class="btn btn-secondary" id="btn-logout">Logout</button>
+        </div>
+      </div>
+      <div class="admin-tabs">
+        <button class="active" data-tab="challenges" id="tab-challenges">Challenges</button>
+        <button data-tab="records" id="tab-records">Record Submissions <span id="pending-records-badge"></span></button>
+        <button data-tab="levels" id="tab-levels">Level Submissions <span id="pending-levels-badge"></span></button>
+      </div>
+
+      <div id="admin-challenges-tab">
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Creator</th>
+                <th>Points</th>
+                <th>Length</th>
+                <th>Verifier</th>
+                <th>Set Rank</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-tbody"></tbody>
+          </table>
+        </div>
+        <div class="admin-empty" id="admin-empty">No challenges yet. Click "Add Challenge" to get started.</div>
+      </div>
+
+      <div id="admin-records-tab" class="view-hidden">
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Player</th>
+                <th>Challenge</th>
+                <th>%</th>
+                <th>Video</th>
+                <th>Submitted</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="submissions-tbody"></tbody>
+          </table>
+        </div>
+        <div class="admin-empty" id="submissions-empty">No pending record submissions.</div>
+      </div>
+
+      <div id="admin-levels-tab" class="view-hidden">
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Creator</th>
+                <th>Suggested #</th>
+                <th>Length</th>
+                <th>Verifier</th>
+                <th>Submitter</th>
+                <th>Place at #</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="level-subs-tbody"></tbody>
+          </table>
+        </div>
+        <div class="admin-empty" id="level-subs-empty">No pending level submissions.</div>
+      </div>
+    </div>
+  </div>
+
+  <footer id="about">
+    <p>
+      Inspired by <a href="https://pointercrate.com" target="_blank">Pointercrate</a> &amp;
+      <a href="https://challengelist.gd" target="_blank">The Challenge List</a>.
+      Fan-made static site for 30-second challenges.
+    </p>
+    <p style="margin-top:0.5rem">
+      <strong>Rules:</strong> Levels must be ≤ 30 seconds long (no speed portal abuse).
+      Rankings and records are managed by the list admins.
+    </p>
+  </footer>
+
+  <div class="modal-overlay" id="login-modal">
+    <div class="modal">
+      <button class="close-btn" id="close-login">&times;</button>
+      <h2>Admin Login</h2>
+      <div class="form-group">
+        <label for="admin-password">Password</label>
+        <input type="password" id="admin-password" placeholder="Enter admin password" autocomplete="off" />
+      </div>
+      <div class="error-msg" id="login-error">Incorrect password</div>
+      <div class="form-actions">
+        <button class="btn btn-primary btn-block" id="btn-login">Login</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="edit-modal">
+    <div class="modal">
+      <button class="close-btn" id="close-edit">&times;</button>
+      <h2 id="edit-title">Add Challenge</h2>
+      <div class="form-group">
+        <label for="edit-name">Level Name *</label>
+        <input type="text" id="edit-name" placeholder="e.g. Tremor" />
+      </div>
+      <div class="form-group">
+        <label for="edit-creator">Creator *</label>
+        <input type="text" id="edit-creator" placeholder="e.g. VoltrixAce" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="edit-points">Points</label>
+          <input type="number" id="edit-points" placeholder="100" min="0" step="1" />
+        </div>
+        <div class="form-group">
+          <label for="edit-length">Length</label>
+          <input type="text" id="edit-length" placeholder="e.g. 28s" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="edit-verifier">Verifier</label>
+        <input type="text" id="edit-verifier" placeholder="Verifier name" />
+      </div>
+      <div class="form-group">
+        <label for="edit-id-field">Level ID (optional)</label>
+        <input type="text" id="edit-id-field" placeholder="Geometry Dash level ID" />
+      </div>
+      <div class="form-group">
+        <label for="edit-cover">Front Cover Image</label>
+        <input type="file" id="edit-cover" accept="image/*" />
+        <div class="hint">Upload to set/replace cover. Leave empty to keep current.</div>
+        <img id="edit-cover-preview" class="cover-preview" alt="Cover preview" />
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-secondary" id="btn-cancel-edit">Cancel</button>
+        <button class="btn btn-primary" id="btn-save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="submit-modal">
+    <div class="modal">
+      <button class="close-btn" id="close-submit">&times;</button>
+      <h2>Submit Record</h2>
+      <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;" id="submit-challenge-name"></p>
+      <div class="form-group">
+        <label for="submit-player">Player Name *</label>
+        <input type="text" id="submit-player" placeholder="Your GD username" />
+      </div>
+      <div class="form-group">
+        <label for="submit-percent">Percentage *</label>
+        <input type="number" id="submit-percent" placeholder="100" min="1" max="100" value="100" />
+      </div>
+      <div class="form-group">
+        <label for="submit-video">Video / Proof URL *</label>
+        <input type="url" id="submit-video" placeholder="https://youtube.com/..." />
+      </div>
+      <div class="form-group">
+        <label for="submit-notes">Notes (optional)</label>
+        <input type="text" id="submit-notes" placeholder="Any extra info" />
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-secondary" id="btn-cancel-submit">Cancel</button>
+        <button class="btn btn-primary" id="btn-send-submit">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="level-submit-modal">
+    <div class="modal wide">
+      <button class="close-btn" id="close-level-submit">&times;</button>
+      <h2>Submit a Level</h2>
+      <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Suggest a placement. Admins will review and can change the final rank.</p>
+      <div class="form-group">
+        <label for="ls-name">Level Name *</label>
+        <input type="text" id="ls-name" placeholder="e.g. My Challenge" />
+      </div>
+      <div class="form-group">
+        <label for="ls-creator">Creator *</label>
+        <input type="text" id="ls-creator" placeholder="Creator name" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="ls-placement">Suggested Placement *</label>
+          <input type="number" id="ls-placement" placeholder="e.g. 5" min="1" />
+          <div class="hint">Enter a number (1 = top 1, 5 = top 5, etc.)</div>
+        </div>
+        <div class="form-group">
+          <label for="ls-length">Length</label>
+          <input type="text" id="ls-length" placeholder="e.g. 28s" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="ls-verifier">Verifier</label>
+        <input type="text" id="ls-verifier" placeholder="Who verified it" />
+      </div>
+      <div class="form-group">
+        <label for="ls-level-id">Level ID (optional)</label>
+        <input type="text" id="ls-level-id" placeholder="Geometry Dash level ID" />
+      </div>
+      <div class="form-group">
+        <label for="ls-video">Showcase / Proof URL (optional)</label>
+        <input type="url" id="ls-video" placeholder="https://youtube.com/..." />
+      </div>
+      <div class="form-group">
+        <label for="ls-cover">Front Cover Image (optional)</label>
+        <input type="file" id="ls-cover" accept="image/*" />
+        <div class="hint">Shown on the list if approved (max ~500KB recommended)</div>
+        <img id="ls-cover-preview" class="cover-preview" alt="Cover preview" />
+      </div>
+      <div class="form-group">
+        <label for="ls-submitter">Your Name *</label>
+        <input type="text" id="ls-submitter" placeholder="Who is submitting this" />
+      </div>
+      <div class="form-group">
+        <label for="ls-notes">Notes / Reasoning (optional)</label>
+        <input type="text" id="ls-notes" placeholder="Why this placement?" />
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-secondary" id="btn-cancel-level-submit">Cancel</button>
+        <button class="btn btn-primary" id="btn-send-level-submit">Submit Level</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SET PLACEMENT MODAL -->
+  <div class="modal-overlay" id="place-modal">
+    <div class="modal">
+      <button class="close-btn" id="close-place">&times;</button>
+      <h2>Change Placement</h2>
+      <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;" id="place-challenge-name"></p>
+      <div class="form-group">
+        <label for="place-rank">New Rank # *</label>
+        <input type="number" id="place-rank" placeholder="e.g. 3" min="1" />
+        <div class="hint">Enter the position you want this level at (1 = top of list)</div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-secondary" id="btn-cancel-place">Cancel</button>
+        <button class="btn btn-primary" id="btn-confirm-place">Move</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ADMIN_PASSWORD = "0727baba";
+    const CHALLENGES_KEY = "scl_challenges_v1";
+    const SUBMISSIONS_KEY = "scl_submissions_v1";
+    const LEVEL_SUBS_KEY = "scl_level_subs_v1";
+
+    let challenges = [];
+    let submissions = [];
+    let levelSubs = [];
+    let isAdmin = false;
+    let activeRank = null;
+    let editingId = null;
+    let submitChallengeRank = null;
+    let placeIdx = null;
+    let currentView = "list";
+
+    const listEl = document.getElementById("challenge-list");
+    const detailEl = document.getElementById("detail-panel");
+    const searchEl = document.getElementById("search");
+    const countEl = document.getElementById("list-count");
+    const mainView = document.getElementById("main-view");
+    const statsView = document.getElementById("stats-view");
+    const adminView = document.getElementById("admin-view");
+    const adminTbody = document.getElementById("admin-tbody");
+    const adminEmpty = document.getElementById("admin-empty");
+    const submissionsTbody = document.getElementById("submissions-tbody");
+    const submissionsEmpty = document.getElementById("submissions-empty");
+    const levelSubsTbody = document.getElementById("level-subs-tbody");
+    const levelSubsEmpty = document.getElementById("level-subs-empty");
+    const loginModal = document.getElementById("login-modal");
+    const editModal = document.getElementById("edit-modal");
+    const submitModal = document.getElementById("submit-modal");
+    const levelSubmitModal = document.getElementById("level-submit-modal");
+    const placeModal = document.getElementById("place-modal");
+    const loginError = document.getElementById("login-error");
+    const passwordInput = document.getElementById("admin-password");
+    const pendingRecordsBadge = document.getElementById("pending-records-badge");
+    const pendingLevelsBadge = document.getElementById("pending-levels-badge");
+    const statsGrid = document.getElementById("stats-grid");
+    const statsEmpty = document.getElementById("stats-empty");
+    const statsDetail = document.getElementById("stats-detail");
+    const statsSearch = document.getElementById("stats-search");
+
+    function loadData() {
+      try { challenges = JSON.parse(localStorage.getItem(CHALLENGES_KEY) || "[]"); } catch { challenges = []; }
+      try { submissions = JSON.parse(localStorage.getItem(SUBMISSIONS_KEY) || "[]"); } catch { submissions = []; }
+      try { levelSubs = JSON.parse(localStorage.getItem(LEVEL_SUBS_KEY) || "[]"); } catch { levelSubs = []; }
+    }
+    function saveChallenges() { localStorage.setItem(CHALLENGES_KEY, JSON.stringify(challenges)); }
+    function saveSubmissions() { localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(submissions)); }
+    function saveLevelSubs() { localStorage.setItem(LEVEL_SUBS_KEY, JSON.stringify(levelSubs)); }
+
+    function reRank() {
+      challenges.forEach((c, i) => { c.rank = i + 1; });
+    }
+
+    // Recalculate points based on rank so they stay correct after moves/replacements
+    // Formula: rank 1 = 100, then decreases smoothly (similar to list-style scoring)
+    function recalcPoints() {
+      challenges.forEach((c, i) => {
+        const rank = i + 1;
+        // 100 * (0.965)^(rank-1), floored at 1
+        c.points = Math.max(1, Math.round(100 * Math.pow(0.965, rank - 1)));
+      });
+    }
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function readImageAsDataURL(file) {
+      return new Promise((resolve, reject) => {
+        if (!file) { resolve(""); return; }
+        if (!file.type.startsWith("image/")) { reject(new Error("Not an image")); return; }
+        // Limit ~800KB raw-ish by rejecting large files
+        if (file.size > 900000) {
+          reject(new Error("Image too large (max ~900KB). Compress it first."));
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error("Failed to read image"));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function setupCoverPreview(inputId, previewId) {
+      const input = document.getElementById(inputId);
+      const preview = document.getElementById(previewId);
+      if (!input || !preview) return;
+      input.addEventListener("change", () => {
+        const file = input.files && input.files[0];
+        if (!file) {
+          preview.src = "";
+          preview.classList.remove("show");
+          return;
+        }
+        const url = URL.createObjectURL(file);
+        preview.src = url;
+        preview.classList.add("show");
+      });
+    }
+
+    function rankClass(rank) {
+      if (rank === 1) return "top1";
+      if (rank === 2) return "top2";
+      if (rank === 3) return "top3";
+      return "";
+    }
+
+    function setActiveNav(id) {
+      document.querySelectorAll(".nav-links a").forEach(a => a.classList.remove("active"));
+      const el = document.getElementById(id);
+      if (el) el.classList.add("active");
+    }
+
+    function showListView() {
+      currentView = "list";
+      mainView.classList.remove("view-hidden");
+      statsView.classList.add("view-hidden");
+      adminView.classList.add("view-hidden");
+      setActiveNav("nav-list");
+      refreshList();
+    }
+
+    function showStatsView() {
+      currentView = "stats";
+      mainView.classList.add("view-hidden");
+      statsView.classList.remove("view-hidden");
+      adminView.classList.add("view-hidden");
+      setActiveNav("nav-stats");
+      renderStats();
+    }
+
+    function showAdminView() {
+      if (!isAdmin) return;
+      currentView = "admin";
+      mainView.classList.add("view-hidden");
+      statsView.classList.add("view-hidden");
+      adminView.classList.remove("view-hidden");
+      setActiveNav(null);
+      renderAdminTable();
+      renderSubmissionsTable();
+      renderLevelSubsTable();
+      updateBadges();
+    }
+
+    function refreshList() {
+      const q = searchEl.value.toLowerCase().trim();
+      const filtered = q
+        ? challenges.filter(c => c.name.toLowerCase().includes(q) || c.creator.toLowerCase().includes(q))
+        : challenges;
+      renderList(filtered);
+    }
+
+    function renderList(data) {
+      listEl.innerHTML = "";
+      countEl.textContent = data.length + " challenge" + (data.length !== 1 ? "s" : "");
+      if (data.length === 0) {
+        listEl.innerHTML = '<div class="empty-list"><p>No challenges on the list yet.</p><p style="font-size:0.85rem">Submit a level or wait for an admin to add one.</p></div>';
+        return;
+      }
+      data.forEach(c => {
+        const li = document.createElement("li");
+        li.className = "challenge-item" + (activeRank === c.rank ? " active" : "");
+        li.dataset.rank = c.rank;
+        const thumb = c.cover
+          ? '<img class="challenge-thumb" src="' + c.cover + '" alt="" />'
+          : '<div class="challenge-thumb placeholder">No<br>cover</div>';
+        li.innerHTML =
+          thumb +
+          '<span class="rank ' + rankClass(c.rank) + '">#' + c.rank + '</span>' +
+          '<div class="challenge-info">' +
+            '<div class="challenge-name">' + escapeHtml(c.name) + '</div>' +
+            '<div class="challenge-creator">' + escapeHtml(c.creator) + '</div>' +
+          '</div>' +
+          '<span class="points">' + c.points + ' pts</span>';
+        li.addEventListener("click", () => showDetail(c));
+        listEl.appendChild(li);
+      });
+    }
+
+    function showDetail(c) {
+      activeRank = c.rank;
+      document.querySelectorAll(".challenge-item").forEach(el => {
+        el.classList.toggle("active", parseInt(el.dataset.rank) === c.rank);
+      });
+      const approved = (c.records || []).slice().sort((a, b) => b.percent - a.percent);
+      let recordsHtml = approved.length
+        ? '<ul class="records-list">' + approved.map(r =>
+            '<li><span class="player">' + escapeHtml(r.player) + '</span><span class="percent">' + r.percent + '%</span></li>'
+          ).join("") + '</ul>'
+        : '<p style="color:var(--text-muted);font-size:0.9rem">No approved records yet.</p>';
+
+      const coverHtml = c.cover ? '<img class="detail-cover" src="' + c.cover + '" alt="Cover" />' : '';
+      detailEl.innerHTML =
+        coverHtml +
+        '<div class="detail-rank">#' + c.rank + ' on the Main List</div>' +
+        '<div class="detail-name">' + escapeHtml(c.name) + '</div>' +
+        '<div class="detail-creator">by ' + escapeHtml(c.creator) + '</div>' +
+        '<div class="detail-stats">' +
+          '<div class="stat-box"><div class="label">Points</div><div class="value">' + c.points + '</div></div>' +
+          '<div class="stat-box"><div class="label">Length</div><div class="value">' + escapeHtml(c.length || "—") + '</div></div>' +
+        '</div>' +
+        '<div class="detail-section"><h3>Verifier</h3><div class="verifier"><span>' + escapeHtml(c.verifier || "—") + '</span>' +
+        (c.verifier ? ' <span class="badge">Verified</span>' : "") + '</div></div>' +
+        (c.levelId ? '<div class="detail-section"><h3>Level ID</h3><p>' + escapeHtml(c.levelId) + '</p></div>' : "") +
+        '<div class="detail-section"><h3>Records</h3>' + recordsHtml + '</div>' +
+        '<button class="btn-submit-record" id="btn-open-submit">Submit Record</button>';
+
+      document.getElementById("btn-open-submit").addEventListener("click", () => openSubmitModal(c));
+    }
+
+    function clearDetail() {
+      activeRank = null;
+      detailEl.innerHTML = '<div class="detail-empty">Select a challenge to view details</div>';
+    }
+
+    function openSubmitModal(c) {
+      submitChallengeRank = c.rank;
+      document.getElementById("submit-challenge-name").textContent = "#" + c.rank + " – " + c.name;
+      document.getElementById("submit-player").value = "";
+      document.getElementById("submit-percent").value = "100";
+      document.getElementById("submit-video").value = "";
+      document.getElementById("submit-notes").value = "";
+      submitModal.classList.add("open");
+      document.getElementById("submit-player").focus();
+    }
+
+    function sendSubmission() {
+      const player = document.getElementById("submit-player").value.trim();
+      const percent = parseInt(document.getElementById("submit-percent").value) || 0;
+      const video = document.getElementById("submit-video").value.trim();
+      const notes = document.getElementById("submit-notes").value.trim();
+      if (!player) { alert("Player name is required."); return; }
+      if (percent < 1 || percent > 100) { alert("Percentage must be 1–100."); return; }
+      if (!video) { alert("Video / proof URL is required."); return; }
+      const challenge = challenges.find(c => c.rank === submitChallengeRank);
+      if (!challenge) { alert("Challenge not found."); return; }
+      submissions.push({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+        challengeRank: challenge.rank,
+        challengeName: challenge.name,
+        player, percent, video, notes,
+        date: new Date().toISOString(),
+        status: "pending"
+      });
+      saveSubmissions();
+      submitModal.classList.remove("open");
+      alert("Record submitted! An admin will review it.");
+      updateBadges();
+      if (isAdmin) renderSubmissionsTable();
+    }
+
+    function openLevelSubmitModal() {
+      document.getElementById("ls-name").value = "";
+      document.getElementById("ls-creator").value = "";
+      document.getElementById("ls-placement").value = "";
+      document.getElementById("ls-length").value = "";
+      document.getElementById("ls-verifier").value = "";
+      document.getElementById("ls-level-id").value = "";
+      document.getElementById("ls-video").value = "";
+      document.getElementById("ls-submitter").value = "";
+      document.getElementById("ls-notes").value = "";
+      document.getElementById("ls-cover").value = "";
+      const p = document.getElementById("ls-cover-preview");
+      p.src = "";
+      p.classList.remove("show");
+      levelSubmitModal.classList.add("open");
+      document.getElementById("ls-name").focus();
+    }
+
+    async function sendLevelSubmission() {
+      const name = document.getElementById("ls-name").value.trim();
+      const creator = document.getElementById("ls-creator").value.trim();
+      const placement = parseInt(document.getElementById("ls-placement").value);
+      const length = document.getElementById("ls-length").value.trim();
+      const verifier = document.getElementById("ls-verifier").value.trim();
+      const levelId = document.getElementById("ls-level-id").value.trim();
+      const video = document.getElementById("ls-video").value.trim();
+      const submitter = document.getElementById("ls-submitter").value.trim();
+      const notes = document.getElementById("ls-notes").value.trim();
+      const coverFile = document.getElementById("ls-cover").files && document.getElementById("ls-cover").files[0];
+
+      if (!name || !creator) { alert("Name and Creator are required."); return; }
+      if (!placement || placement < 1) { alert("Please enter a suggested placement (number ≥ 1)."); return; }
+      if (!submitter) { alert("Your name is required."); return; }
+
+      let cover = "";
+      try {
+        cover = await readImageAsDataURL(coverFile);
+      } catch (err) {
+        alert(err.message || "Could not read cover image.");
+        return;
+      }
+
+      levelSubs.push({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+        name, creator,
+        suggestedPlacement: placement,
+        length: length || "—",
+        verifier, levelId, video, submitter, notes,
+        cover: cover,
+        date: new Date().toISOString(),
+        status: "pending"
+      });
+      saveLevelSubs();
+      levelSubmitModal.classList.remove("open");
+      document.getElementById("ls-cover").value = "";
+      document.getElementById("ls-cover-preview").classList.remove("show");
+      alert("Level submitted for placement #" + placement + "! An admin will review it.");
+      updateBadges();
+      if (isAdmin) renderLevelSubsTable();
+    }
+
+    // Move challenge to a specific 1-based rank
+    function setPlacement(idx, newRank) {
+      if (idx < 0 || idx >= challenges.length) return;
+      newRank = Math.max(1, Math.min(newRank, challenges.length));
+      const item = challenges.splice(idx, 1)[0];
+      challenges.splice(newRank - 1, 0, item);
+      reRank();
+      recalcPoints();
+      saveChallenges();
+    }
+
+    function openPlaceModal(idx) {
+      placeIdx = idx;
+      const c = challenges[idx];
+      document.getElementById("place-challenge-name").textContent = "Currently #" + c.rank + " – " + c.name;
+      document.getElementById("place-rank").value = c.rank;
+      placeModal.classList.add("open");
+      document.getElementById("place-rank").focus();
+    }
+
+    function confirmPlace() {
+      const newRank = parseInt(document.getElementById("place-rank").value);
+      if (!newRank || newRank < 1) { alert("Enter a valid rank (≥ 1)."); return; }
+      setPlacement(placeIdx, newRank);
+      placeModal.classList.remove("open");
+      renderAdminTable();
+      if (currentView === "list") refreshList();
+      clearDetail();
+    }
+
+    function renderAdminTable() {
+      adminTbody.innerHTML = "";
+      if (challenges.length === 0) {
+        adminEmpty.style.display = "block";
+        return;
+      }
+      adminEmpty.style.display = "none";
+      challenges.forEach((c, idx) => {
+        const tr = document.createElement("tr");
+        let actions = '<div class="admin-actions">' +
+          '<button class="btn-edit" data-idx="' + idx + '">Edit</button>' +
+          '<button class="btn-place" data-idx="' + idx + '">Place</button>' +
+          '<button class="btn-delete" data-idx="' + idx + '">Delete</button>';
+        if (idx > 0) actions += '<button class="btn-edit" data-move="up" data-idx="' + idx + '">↑</button>';
+        if (idx < challenges.length - 1) actions += '<button class="btn-edit" data-move="down" data-idx="' + idx + '">↓</button>';
+        actions += '</div>';
+        tr.innerHTML =
+          '<td>#' + c.rank + '</td>' +
+          '<td>' + escapeHtml(c.name) + '</td>' +
+          '<td>' + escapeHtml(c.creator) + '</td>' +
+          '<td>' + c.points + '</td>' +
+          '<td>' + escapeHtml(c.length || "—") + '</td>' +
+          '<td>' + escapeHtml(c.verifier || "—") + '</td>' +
+          '<td><input type="number" class="place-input" min="1" value="' + c.rank + '" data-idx="' + idx + '" title="Type new rank and press Enter" /></td>' +
+          '<td>' + actions + '</td>';
+        adminTbody.appendChild(tr);
+      });
+
+      adminTbody.querySelectorAll(".btn-edit").forEach(btn => {
+        if (btn.dataset.move) {
+          btn.addEventListener("click", () => moveChallenge(parseInt(btn.dataset.idx), btn.dataset.move));
+        } else {
+          btn.addEventListener("click", () => openEditModal(parseInt(btn.dataset.idx)));
+        }
+      });
+      adminTbody.querySelectorAll(".btn-place").forEach(btn => {
+        btn.addEventListener("click", () => openPlaceModal(parseInt(btn.dataset.idx)));
+      });
+      adminTbody.querySelectorAll(".btn-delete").forEach(btn => {
+        btn.addEventListener("click", () => deleteChallenge(parseInt(btn.dataset.idx)));
+      });
+      // Inline rank input: change on Enter or blur
+      adminTbody.querySelectorAll(".place-input").forEach(input => {
+        const apply = () => {
+          const idx = parseInt(input.dataset.idx);
+          const newRank = parseInt(input.value);
+          if (!newRank || newRank < 1) {
+            input.value = challenges[idx].rank;
+            return;
+          }
+          if (newRank === challenges[idx].rank) return;
+          setPlacement(idx, newRank);
+          renderAdminTable();
+          if (currentView === "list") refreshList();
+          clearDetail();
+        };
+        input.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); apply(); } });
+        input.addEventListener("blur", apply);
+      });
+    }
+
+    function openEditModal(idx) {
+      editingId = idx;
+      document.getElementById("edit-title").textContent = idx === null ? "Add Challenge" : "Edit Challenge";
+      if (idx !== null) {
+        const c = challenges[idx];
+        document.getElementById("edit-name").value = c.name;
+        document.getElementById("edit-creator").value = c.creator;
+        document.getElementById("edit-points").value = c.points;
+        document.getElementById("edit-length").value = c.length || "";
+        document.getElementById("edit-verifier").value = c.verifier || "";
+        document.getElementById("edit-id-field").value = c.levelId || "";
+      } else {
+        document.getElementById("edit-name").value = "";
+        document.getElementById("edit-creator").value = "";
+        document.getElementById("edit-points").value = challenges.length === 0 ? 100 : Math.max(1, (challenges[challenges.length - 1].points || 10) - 2);
+        document.getElementById("edit-length").value = "";
+        document.getElementById("edit-verifier").value = "";
+        document.getElementById("edit-id-field").value = "";
+      }
+      document.getElementById("edit-cover").value = "";
+      const editPreview = document.getElementById("edit-cover-preview");
+      if (idx !== null && challenges[idx].cover) {
+        editPreview.src = challenges[idx].cover;
+        editPreview.classList.add("show");
+      } else {
+        editPreview.src = "";
+        editPreview.classList.remove("show");
+      }
+      editModal.classList.add("open");
+      document.getElementById("edit-name").focus();
+    }
+
+    async function saveChallenge() {
+      const name = document.getElementById("edit-name").value.trim();
+      const creator = document.getElementById("edit-creator").value.trim();
+      if (!name || !creator) { alert("Name and Creator are required."); return; }
+      const coverFile = document.getElementById("edit-cover").files && document.getElementById("edit-cover").files[0];
+      let cover = editingId !== null ? (challenges[editingId].cover || "") : "";
+      if (coverFile) {
+        try {
+          cover = await readImageAsDataURL(coverFile);
+        } catch (err) {
+          alert(err.message || "Could not read cover image.");
+          return;
+        }
+      }
+      const data = {
+        name, creator,
+        points: parseInt(document.getElementById("edit-points").value) || 0,
+        length: document.getElementById("edit-length").value.trim() || "—",
+        verifier: document.getElementById("edit-verifier").value.trim() || "",
+        levelId: document.getElementById("edit-id-field").value.trim() || "",
+        cover: cover,
+        records: editingId !== null ? (challenges[editingId].records || []) : []
+      };
+      if (editingId === null) challenges.push(data);
+      else challenges[editingId] = Object.assign({}, challenges[editingId], data);
+      reRank();
+      if (editingId === null) recalcPoints();
+      saveChallenges();
+      editModal.classList.remove("open");
+      renderAdminTable();
+      if (currentView === "list") refreshList();
+    }
+
+    function deleteChallenge(idx) {
+      if (!confirm('Delete "' + challenges[idx].name + '"?')) return;
+      challenges.splice(idx, 1);
+      reRank();
+      recalcPoints();
+      saveChallenges();
+      clearDetail();
+      renderAdminTable();
+      if (currentView === "list") refreshList();
+    }
+
+    function moveChallenge(idx, direction) {
+      const swap = direction === "up" ? idx - 1 : idx + 1;
+      if (swap < 0 || swap >= challenges.length) return;
+      const temp = challenges[idx];
+      challenges[idx] = challenges[swap];
+      challenges[swap] = temp;
+      reRank();
+      recalcPoints();
+      saveChallenges();
+      renderAdminTable();
+      if (currentView === "list") refreshList();
+    }
+
+    function insertChallengeAt(challenge, position) {
+      let idx = Math.max(0, Math.min(position - 1, challenges.length));
+      challenges.splice(idx, 0, challenge);
+      reRank();
+      recalcPoints();
+      saveChallenges();
+    }
+
+    function updateBadges() {
+      const nr = submissions.filter(s => s.status === "pending").length;
+      const nl = levelSubs.filter(s => s.status === "pending").length;
+      pendingRecordsBadge.textContent = nr > 0 ? "(" + nr + ")" : "";
+      pendingLevelsBadge.textContent = nl > 0 ? "(" + nl + ")" : "";
+    }
+
+    function renderSubmissionsTable() {
+      const pending = submissions.filter(s => s.status === "pending");
+      submissionsTbody.innerHTML = "";
+      if (pending.length === 0) {
+        submissionsEmpty.style.display = "block";
+        return;
+      }
+      submissionsEmpty.style.display = "none";
+      pending.forEach(s => {
+        const tr = document.createElement("tr");
+        const dateStr = new Date(s.date).toLocaleDateString();
+        tr.innerHTML =
+          '<td>' + escapeHtml(s.player) + '</td>' +
+          '<td>#' + s.challengeRank + ' ' + escapeHtml(s.challengeName) + '</td>' +
+          '<td>' + s.percent + '%</td>' +
+          '<td><a href="' + escapeHtml(s.video) + '" target="_blank" rel="noopener" style="color:var(--accent)">Link</a></td>' +
+          '<td>' + dateStr + '</td>' +
+          '<td><div class="admin-actions">' +
+            '<button class="btn-approve" data-id="' + s.id + '">Approve</button>' +
+            '<button class="btn-reject" data-id="' + s.id + '">Reject</button>' +
+          '</div></td>';
+        submissionsTbody.appendChild(tr);
+      });
+      submissionsTbody.querySelectorAll(".btn-approve").forEach(btn => {
+        btn.addEventListener("click", () => approveSubmission(btn.dataset.id));
+      });
+      submissionsTbody.querySelectorAll(".btn-reject").forEach(btn => {
+        btn.addEventListener("click", () => rejectSubmission(btn.dataset.id));
+      });
+    }
+
+    function approveSubmission(id) {
+      const sub = submissions.find(s => s.id === id);
+      if (!sub) return;
+      sub.status = "approved";
+      const challenge = challenges.find(c => c.rank === sub.challengeRank || c.name === sub.challengeName);
+      if (challenge) {
+        if (!challenge.records) challenge.records = [];
+        const exists = challenge.records.some(r => r.player.toLowerCase() === sub.player.toLowerCase() && r.percent === sub.percent);
+        if (!exists) {
+          challenge.records.push({ player: sub.player, percent: sub.percent, video: sub.video });
+        }
+        saveChallenges();
+      }
+      saveSubmissions();
+      renderSubmissionsTable();
+      updateBadges();
+      if (challenge && activeRank === challenge.rank) showDetail(challenge);
+      alert("Record approved for " + sub.player);
+    }
+
+    function rejectSubmission(id) {
+      const sub = submissions.find(s => s.id === id);
+      if (!sub) return;
+      if (!confirm("Reject submission from " + sub.player + "?")) return;
+      sub.status = "rejected";
+      saveSubmissions();
+      renderSubmissionsTable();
+      updateBadges();
+    }
+
+    function renderLevelSubsTable() {
+      const pending = levelSubs.filter(s => s.status === "pending");
+      levelSubsTbody.innerHTML = "";
+      if (pending.length === 0) {
+        levelSubsEmpty.style.display = "block";
+        return;
+      }
+      levelSubsEmpty.style.display = "none";
+      pending.forEach(s => {
+        const tr = document.createElement("tr");
+        tr.innerHTML =
+          '<td>' + escapeHtml(s.name) + '</td>' +
+          '<td>' + escapeHtml(s.creator) + '</td>' +
+          '<td>#' + s.suggestedPlacement + '</td>' +
+          '<td>' + escapeHtml(s.length || "—") + '</td>' +
+          '<td>' + escapeHtml(s.verifier || "—") + '</td>' +
+          '<td>' + escapeHtml(s.submitter) + '</td>' +
+          '<td><input type="number" class="place-input" min="1" value="' + s.suggestedPlacement + '" data-id="' + s.id + '" title="Final placement" /></td>' +
+          '<td><div class="admin-actions">' +
+            '<button class="btn-approve" data-id="' + s.id + '">Approve</button>' +
+            '<button class="btn-reject" data-id="' + s.id + '">Reject</button>' +
+          '</div></td>';
+        levelSubsTbody.appendChild(tr);
+      });
+      levelSubsTbody.querySelectorAll(".btn-approve").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const input = levelSubsTbody.querySelector('.place-input[data-id="' + btn.dataset.id + '"]');
+          const place = parseInt(input.value) || 1;
+          approveLevelSub(btn.dataset.id, place);
+        });
+      });
+      levelSubsTbody.querySelectorAll(".btn-reject").forEach(btn => {
+        btn.addEventListener("click", () => rejectLevelSub(btn.dataset.id));
+      });
+    }
+
+    function approveLevelSub(id, finalPlacement) {
+      const sub = levelSubs.find(s => s.id === id);
+      if (!sub) return;
+      finalPlacement = Math.max(1, finalPlacement || sub.suggestedPlacement);
+      const newChallenge = {
+        name: sub.name,
+        creator: sub.creator,
+        points: 0,
+        length: sub.length || "—",
+        verifier: sub.verifier || "",
+        levelId: sub.levelId || "",
+        cover: sub.cover || "",
+        records: []
+      };
+      insertChallengeAt(newChallenge, finalPlacement);
+      sub.status = "approved";
+      saveLevelSubs();
+      renderLevelSubsTable();
+      renderAdminTable();
+      updateBadges();
+      if (currentView === "list") refreshList();
+      alert('"' + sub.name + '" added at position #' + finalPlacement);
+    }
+
+    function rejectLevelSub(id) {
+      const sub = levelSubs.find(s => s.id === id);
+      if (!sub) return;
+      if (!confirm('Reject level "' + sub.name + '"?')) return;
+      sub.status = "rejected";
+      saveLevelSubs();
+      renderLevelSubsTable();
+      updateBadges();
+    }
+
+    function getPlayerStats() {
+      const map = {};
+      challenges.forEach(c => {
+        (c.records || []).forEach(r => {
+          if (r.percent < 100) return;
+          const key = r.player.toLowerCase();
+          if (!map[key]) {
+            map[key] = { name: r.player, points: 0, completions: 0, beaten: [] };
+          }
+          map[key].points += c.points || 0;
+          map[key].completions += 1;
+          map[key].beaten.push({ rank: c.rank, name: c.name, points: c.points });
+        });
+      });
+      return Object.values(map).sort((a, b) => b.points - a.points || b.completions - a.completions);
+    }
+
+    function renderStats() {
+      const players = getPlayerStats();
+      const q = statsSearch.value.toLowerCase().trim();
+      const filtered = q ? players.filter(p => p.name.toLowerCase().includes(q)) : players;
+      statsGrid.innerHTML = "";
+      statsDetail.classList.add("view-hidden");
+      if (filtered.length === 0) {
+        statsEmpty.style.display = "block";
+        return;
+      }
+      statsEmpty.style.display = "none";
+      filtered.forEach((p, i) => {
+        const rank = i + 1;
+        const card = document.createElement("div");
+        card.className = "player-card";
+        card.innerHTML =
+          '<div class="rank-badge ' + rankClass(rank) + '">#' + rank + '</div>' +
+          '<div class="player-name">' + escapeHtml(p.name) + '</div>' +
+          '<div class="player-stats">' +
+            '<span><strong>' + p.points + '</strong> pts</span>' +
+            '<span><strong>' + p.completions + '</strong> completions</span>' +
+          '</div>';
+        card.addEventListener("click", () => showPlayerDetail(p, rank));
+        statsGrid.appendChild(card);
+      });
+    }
+
+    function showPlayerDetail(p, rank) {
+      statsDetail.classList.remove("view-hidden");
+      let beatenHtml = p.beaten.length
+        ? '<ul class="beaten-list">' + p.beaten.sort((a, b) => a.rank - b.rank)
+            .map(b => '<li><span>#' + b.rank + ' ' + escapeHtml(b.name) + '</span><span style="color:var(--accent)">' + b.points + ' pts</span></li>')
+            .join("") + '</ul>'
+        : '<p style="color:var(--text-muted)">No completions.</p>';
+      statsDetail.innerHTML =
+        '<h3>#' + rank + ' – ' + escapeHtml(p.name) + '</h3>' +
+        '<p style="color:var(--text-muted);margin-bottom:1rem">' + p.points + ' points · ' + p.completions + ' completions</p>' +
+        '<h4 style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem;text-transform:uppercase">Beaten Challenges</h4>' +
+        beatenHtml;
+      statsDetail.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function tryLogin() {
+      if (passwordInput.value === ADMIN_PASSWORD) {
+        isAdmin = true;
+        loginModal.classList.remove("open");
+        passwordInput.value = "";
+        loginError.classList.remove("show");
+        showAdminView();
+      } else {
+        loginError.classList.add("show");
+        passwordInput.focus();
+      }
+    }
+
+    function logout() {
+      isAdmin = false;
+      showListView();
+    }
+
+    document.getElementById("nav-list").addEventListener("click", e => { e.preventDefault(); showListView(); });
+    document.getElementById("nav-stats").addEventListener("click", e => { e.preventDefault(); showStatsView(); });
+    document.getElementById("logo-home").addEventListener("click", e => { e.preventDefault(); showListView(); });
+
+    document.getElementById("nav-admin").addEventListener("click", () => {
+      if (isAdmin) showAdminView();
+      else {
+        loginModal.classList.add("open");
+        passwordInput.focus();
+      }
+    });
+
+    document.getElementById("close-login").addEventListener("click", () => {
+      loginModal.classList.remove("open");
+      loginError.classList.remove("show");
+      passwordInput.value = "";
+    });
+    document.getElementById("btn-login").addEventListener("click", tryLogin);
+    passwordInput.addEventListener("keydown", e => { if (e.key === "Enter") tryLogin(); });
+
+    document.getElementById("btn-logout").addEventListener("click", logout);
+    document.getElementById("btn-add-challenge").addEventListener("click", () => openEditModal(null));
+    document.getElementById("close-edit").addEventListener("click", () => editModal.classList.remove("open"));
+    document.getElementById("btn-cancel-edit").addEventListener("click", () => editModal.classList.remove("open"));
+    document.getElementById("btn-save").addEventListener("click", saveChallenge);
+
+    document.getElementById("close-submit").addEventListener("click", () => submitModal.classList.remove("open"));
+    document.getElementById("btn-cancel-submit").addEventListener("click", () => submitModal.classList.remove("open"));
+    document.getElementById("btn-send-submit").addEventListener("click", sendSubmission);
+
+    document.getElementById("btn-open-level-submit").addEventListener("click", openLevelSubmitModal);
+    document.getElementById("close-level-submit").addEventListener("click", () => levelSubmitModal.classList.remove("open"));
+    document.getElementById("btn-cancel-level-submit").addEventListener("click", () => levelSubmitModal.classList.remove("open"));
+    document.getElementById("btn-send-level-submit").addEventListener("click", sendLevelSubmission);
+
+    document.getElementById("close-place").addEventListener("click", () => placeModal.classList.remove("open"));
+    document.getElementById("btn-cancel-place").addEventListener("click", () => placeModal.classList.remove("open"));
+    document.getElementById("btn-confirm-place").addEventListener("click", confirmPlace);
+    document.getElementById("place-rank").addEventListener("keydown", e => {
+      if (e.key === "Enter") confirmPlace();
+    });
+
+    searchEl.addEventListener("input", refreshList);
+    statsSearch.addEventListener("input", renderStats);
+
+    document.getElementById("tab-challenges").addEventListener("click", () => {
+      document.getElementById("tab-challenges").classList.add("active");
+      document.getElementById("tab-records").classList.remove("active");
+      document.getElementById("tab-levels").classList.remove("active");
+      document.getElementById("admin-challenges-tab").classList.remove("view-hidden");
+      document.getElementById("admin-records-tab").classList.add("view-hidden");
+      document.getElementById("admin-levels-tab").classList.add("view-hidden");
+    });
+    document.getElementById("tab-records").addEventListener("click", () => {
+      document.getElementById("tab-records").classList.add("active");
+      document.getElementById("tab-challenges").classList.remove("active");
+      document.getElementById("tab-levels").classList.remove("active");
+      document.getElementById("admin-records-tab").classList.remove("view-hidden");
+      document.getElementById("admin-challenges-tab").classList.add("view-hidden");
+      document.getElementById("admin-levels-tab").classList.add("view-hidden");
+      renderSubmissionsTable();
+    });
+    document.getElementById("tab-levels").addEventListener("click", () => {
+      document.getElementById("tab-levels").classList.add("active");
+      document.getElementById("tab-challenges").classList.remove("active");
+      document.getElementById("tab-records").classList.remove("active");
+      document.getElementById("admin-levels-tab").classList.remove("view-hidden");
+      document.getElementById("admin-challenges-tab").classList.add("view-hidden");
+      document.getElementById("admin-records-tab").classList.add("view-hidden");
+      renderLevelSubsTable();
+    });
+
+    loginModal.addEventListener("click", e => {
+      if (e.target === loginModal) {
+        loginModal.classList.remove("open");
+        loginError.classList.remove("show");
+      }
+    });
+    editModal.addEventListener("click", e => { if (e.target === editModal) editModal.classList.remove("open"); });
+    submitModal.addEventListener("click", e => { if (e.target === submitModal) submitModal.classList.remove("open"); });
+    levelSubmitModal.addEventListener("click", e => { if (e.target === levelSubmitModal) levelSubmitModal.classList.remove("open"); });
+    placeModal.addEventListener("click", e => { if (e.target === placeModal) placeModal.classList.remove("open"); });
+
+    setupCoverPreview("ls-cover", "ls-cover-preview");
+    setupCoverPreview("edit-cover", "edit-cover-preview");
+    loadData();
+    reRank();
+    recalcPoints();
+    saveChallenges();
+    showListView();
+    updateBadges();
+  </script>
+</body>
+</html>
